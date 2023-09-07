@@ -1,0 +1,12 @@
+[{
+    "id": "A1",
+    "question": "¿Qué es dispositivo?",
+    "oldAnswer": "Es un objeto fisico que realiza alguna interacción con algo tecnologíco",
+    "newAnswer": "Es un objeto fisico que realiza alguna interacción con algo tecnologíco y generalmente forma parte de algo más grande"
+}, {
+    "id": "A2",
+    "question": "¿Qué es hardware?",
+    "oldAnswer": "Los dispositivos fisicos que intervienen en los procesos computacionales",
+    "newAnswer": "Los dispositivos fisicos que intervienen en los procesos computacionales"
+}
+]

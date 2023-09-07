@@ -1,5 +1,4 @@
 const option1 = document.querySelector('#QID1')
-
 const arrayQuestions = [{
     id: "A1",
     question: "¿Qué es dispositivo?",
@@ -548,39 +547,10 @@ const arrayQuestions = [{
     question: "¿Qué es modularización?",
     newAnswer: "Es la capacidad de compartimentalizar archivos y comunicarlos entre ellos para tener un código ordenado y sostenible"
 },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ]
 
 const questionsZone = document.querySelector('.DivQ')
-arrayQuestions.map((question, index) => {
+const innerQuestions = (question, index) => {
     questionsZone.innerHTML += `
     <div class="DivChieldQ" id="${question.id}" onclick="answerQuestion('${question.id}')">
         <div class="numberQ">
@@ -591,25 +561,97 @@ arrayQuestions.map((question, index) => {
                             </div>
                             </div>
         `
+}
+const answerZone = document.querySelector('.QAZone')
+const innerAnswer = (question, id) => {
+    if (question.id == id) {
+        answerZone.innerHTML = `
+        <div id="A1" class="QAZoneContainer">
+                    <h2>Mi Respuesta:</h2>
+                    <h3>${question.newAnswer}</h3>
+                     ${question.oldAnswer ? `<div> <h2> Mi vieja respuesta:</h2 > <h5>${question.oldAnswer}</h5></div >` : ''}
+        </div>`
+    }
+}
+
+arrayQuestions.map((question, index) => {
+    innerQuestions(question, index)
 })
 
-function answerQuestion(id) {
-    console.log("hola")
-    const answerZone = document.querySelector('.QAZone')
-    arrayQuestions.map((question, index) => {
-        console.log(question.id)
-        console.log(id)
-        if (question.id == id) {
-            answerZone.innerHTML = `
-        <div id="A1" class="QAZoneContainer">
-                    <div>
-                    <h2>Mi Respuesta:</h2>
-                    <h3><b>${question.newAnswer}</b></h3>
-                     ${question.oldAnswer ? `<div> <h2 h2 > Mi vieja respuesta:</h2 > <h3><b>${question.oldAnswer}</b></h3></div >` : ''}
-            </div>
-        </div>`
-        }
+let arrayNewQuestions = JSON.parse(localStorage.getItem("newQuestions"))
+if (arrayNewQuestions == null) {
+    arrayNewQuestions = []
+    localStorage.setItem("newQuestions", JSON.stringify(arrayNewQuestions))
+} else {
+    arrayNewQuestions.map((question, index) => {
+        innerQuestions(question, index)
     })
+}
+
+questionsZone.innerHTML += `
+<div class="DivChieldQ" id="newQuestion" onclick="answerQuestion('newQuestion')">
+                                <div class="numberQ">
+                                    +
+                                </div>
+                                <div class="questionQ">
+                                    Agrega vocabulario al glosario
+                                </div>
+                            </div>
+        `
+function answerQuestion(id) {
+    arrayQuestions.map((question, index) => {
+        innerAnswer(question, id)
+    })
+    arrayNewQuestions.map((question, index) => {
+        innerAnswer(question, id)
+    })
+    if (id == 'newQuestion') {
+        answerZone.innerHTML = `
+        <div id="newQuestion" class="QAZoneContainer">
+                        <h1 style="margin:0">Agrega terminos</h1>
+                        <h1 style="margin:0"> a tú glosario</h1>
+                        <form id="form">
+                            <div class="divInputs">
+                                <h2>Pregunta:</h2>
+                                <input type="text" id="answerForm">
+                            </div>
+                            <div class="divInputs">
+                                <h2>Respuesta:</h2>
+                                <input type="text" id="questionForm">
+                            </div>
+                            <button type="submit" class="submitButton">
+                                <h2>Registrar termino</h2>
+                            </button>
+                        </form>
+                    </div>`
+
+        const form = document.getElementById("form");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const answerForm = document.getElementById('answerForm')
+            const questionForm = document.getElementById('questionForm')
+            const newQuestion = {
+                id: answerForm.value,
+                question: answerForm.value,
+                newAnswer: questionForm.value
+            }
+            arrayQuestions.push(newQuestion)
+            arrayNewQuestions.push(newQuestion)
+            localStorage.setItem("newQuestions", JSON.stringify(arrayNewQuestions))
+            questionsZone.innerHTML += `
+    <div class="DivChieldQ" id="${answerForm.value}" onclick="answerQuestion('${answerForm.value}')">
+        <div class="numberQ">
+                                -
+                            </div>
+                            <div class="questionQ">
+                                ${answerForm.value}
+                            </div >
+                            </div >
+            `
+        });
+
+    }
+
 
 }
 
