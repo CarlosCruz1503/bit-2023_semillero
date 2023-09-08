@@ -10,7 +10,24 @@
 
 <body>
     <div class="container">
-        <h1 style="text-align: center;font-size: 4rem;padding: 2rem">Mi glosario</h1>
+        <h1 style="text-align: center;font-size: 4rem;padding: 0.3rem">Mi glosario</h1>
+        <div style="display: flex;gap:0.3rem" class="electionZone">
+            <h3 class="submitButton" onclick="filterTopic('HTML')">
+                HTML
+            </h3>
+            <h3 class="submitButton" onclick="filterTopic('JS')">
+                JS
+            </h3>
+            <h3 class="submitButton" onclick="filterTopic('CSS')">
+                CSS
+            </h3>
+            <h3 class="submitButton" onclick="filterTopic('DEV')">
+                DEV
+            </h3>
+            <h3 class="submitButton" onclick="filterTopic('...')">
+                ...
+            </h3>
+        </div>
         <div class="card">
             <div class="selectZone">
                 <div class="selectZoneSmall">
